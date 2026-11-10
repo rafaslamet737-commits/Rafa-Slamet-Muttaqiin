@@ -1,0 +1,727 @@
+```html
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JURAGAN RAFA - Toko Sepatu Branded Original</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-600 selection:text-white">
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toast-msg" class="text-sm font-medium">Berhasil ditambahkan ke keranjang!</span>
+    </div>
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-indigo-900 text-indigo-100 text-xs py-2 px-4 text-center font-medium">
+        🔥 JURAGAN RAFA - 100% Original Branded Shoes | Bisa Bayar Cash & Angsuran E-Wallet / Transfer Bank | Order Cepat via WhatsApp: <a href="https://wa.me/62895385188721" target="_blank" class="underline font-bold text-white hover:text-indigo-200">0895-3851-88721</a>
+    </div>
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-600 text-white p-2.5 rounded-xl shadow-md shadow-indigo-200">
+                    <i class="fa-solid fa-shoe-prints text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-black tracking-tight text-slate-900">JURAGAN<span class="text-indigo-600">RAFA</span></h1>
+                    <p class="text-xs text-slate-500 font-medium">Premium Branded Footwear Store</p>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="#home" class="hover:text-indigo-600 transition">Beranda</a>
+                <a href="#katalog" class="hover:text-indigo-600 transition">Katalog & Stok</a>
+                <a href="#tabel-detail" class="hover:text-indigo-600 transition">Tabel Spesifikasi</a>
+                <a href="#pembayaran" class="hover:text-indigo-600 transition">Metode Pembayaran</a>
+                <a href="#kontak" class="hover:text-indigo-600 transition">Kontak & WA</a>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCartModal()" class="relative bg-slate-100 hover:bg-slate-200 p-2.5 rounded-xl text-slate-700 transition flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="hidden sm:inline text-xs font-bold">Keranjang</span>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-indigo-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+                <a href="https://wa.me/62895385188721?text=Halo%20Juragan%20Rafa,%20saya%20ingin%20bertanya%20mengenai%20sepatu%20branded." target="_blank" class="hidden sm:flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-emerald-200 transition">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Chat WA</span>
+                </a>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 bg-slate-100 rounded-xl text-slate-700">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-2">
+            <a href="#home" onclick="toggleMobileMenu()" class="block py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600">Beranda</a>
+            <a href="#katalog" onclick="toggleMobileMenu()" class="block py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600">Katalog & Stok</a>
+            <a href="#tabel-detail" onclick="toggleMobileMenu()" class="block py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600">Tabel Spesifikasi</a>
+            <a href="#pembayaran" onclick="toggleMobileMenu()" class="block py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600">Metode Pembayaran</a>
+            <a href="#kontak" onclick="toggleMobileMenu()" class="block py-2 text-sm font-semibold text-slate-700 hover:text-indigo-600">Kontak & WA</a>
+            <a href="https://wa.me/62895385188721" target="_blank" class="flex items-center justify-center gap-2 bg-emerald-600 text-white py-2.5 rounded-xl font-semibold text-sm mt-3">
+                <i class="fa-brands fa-whatsapp"></i> Order via WhatsApp (0895385188721)
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative bg-slate-900 text-white overflow-hidden py-20 lg:py-28">
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 space-y-6">
+                <span class="inline-flex items-center gap-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase">
+                    <i class="fa-solid fa-fire text-amber-400"></i> Selamat Datang di Juragan Rafa Store
+                </span>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-none">
+                    Langkah Penuh Percaya Diri dengan <span class="text-indigo-400">Sepatu Branded</span> Terbaik.
+                </h1>
+                <p class="text-slate-300 text-base sm:text-lg max-w-2xl font-normal">
+                    Pusat jual beli sepatu original import & lokal kualitas premium di <strong>Juragan Rafa</strong>. Tersedia pembayaran fleksibel: Cash, Angsuran e-Wallet (DANA, OVO, GoPay) maupun Transfer Bank (BCA, BRI, BSI, dll).
+                </p>
+                <div class="flex flex-wrap items-center gap-4 pt-2">
+                    <a href="#katalog" class="bg-indigo-600 hover:bg-indigo-500 text-white px-7 py-3.5 rounded-xl font-bold text-sm shadow-lg shadow-indigo-600/30 transition flex items-center gap-2">
+                        <span>Lihat Katalog & Stok</span>
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                    <a href="https://wa.me/62895385188721?text=Halo%20Juragan%20Rafa,%20saya%20mau%20order%20sepatu." target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white px-7 py-3.5 rounded-xl font-bold text-sm shadow-lg shadow-emerald-600/30 transition flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Order Cepat WA: 0895385188721</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800 text-slate-400 text-xs sm:text-sm">
+                    <div>
+                        <p class="text-white font-bold text-lg">100%</p>
+                        <p>Original Brand</p>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold text-lg">Bisa Cicilan</p>
+                        <p>e-Wallet & Bank</p>
+                    </div>
+                    <div>
+                        <p class="text-white font-bold text-lg">Fast Response</p>
+                        <p>WhatsApp 24/7</p>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-5 relative">
+                <div class="bg-gradient-to-tr from-indigo-600/30 to-purple-600/30 rounded-3xl p-4 border border-slate-700/50 shadow-2xl backdrop-blur-sm">
+                    <img src="https://placehold.co/600x500/1e293b/cbd5e1?text=NIKE+AIR+JORDAN+1+HIGH" alt="Sepatu Branded" class="rounded-2xl w-full h-80 object-cover shadow-md">
+                    <div class="mt-4 bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-slate-400">Featured Product - Juragan Rafa</p>
+                            <h3 class="font-bold text-white text-base">Nike Air Jordan 1 High OG</h3>
+                            <p class="text-indigo-400 font-extrabold text-sm mt-0.5">Rp 2.450.000 <span class="text-xs text-slate-400 font-normal">/ Bisa Angsuran</span></p>
+                        </div>
+                        <button onclick="quickAddToCart(1)" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                            <i class="fa-solid fa-plus mr-1"></i> Beli
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Katalog Produk Cards Section -->
+    <section id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-indigo-600 text-xs font-extrabold uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full">Katalog Eksklusif Juragan Rafa</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-3">Pilihan Sepatu Branded Original</h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">Pilih model impian Anda. Stok terbatas, update real-time setiap hari.</p>
+        </div>
+
+        <!-- Filter Brand / Kategori -->
+        <div class="flex flex-wrap justify-center gap-2 mb-10">
+            <button onclick="filterProducts('all')" id="btn-all" class="filter-btn active-filter px-5 py-2 rounded-xl text-sm font-semibold bg-indigo-600 text-white shadow-md shadow-indigo-100 transition">Semua Brand</button>
+            <button onclick="filterProducts('Nike')" id="btn-Nike" class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Nike</button>
+            <button onclick="filterProducts('Adidas')" id="btn-Adidas" class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Adidas</button>
+            <button onclick="filterProducts('New Balance')" id="btn-New Balance" class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">New Balance</button>
+            <button onclick="filterProducts('Puma')" id="btn-Puma" class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Puma</button>
+            <button onclick="filterProducts('Vans')" id="btn-Vans" class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition">Vans</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Rendered by JS -->
+        </div>
+    </section>
+
+    <!-- Tabel Ukuran, Harga, Stok, Model & Spesifikasi -->
+    <section id="tabel-detail" class="bg-white border-y border-slate-200 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-indigo-600 text-xs font-extrabold uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full">Informasi Lengkap Juragan Rafa</span>
+                    <h2 class="text-3xl font-black text-slate-900 mt-3">Tabel Ukuran, Harga & Spesifikasi Stok</h2>
+                    <p class="text-slate-600 text-sm mt-1">Periksa ketersediaan ukuran dan detail spesifikasi produk sebelum memesan.</p>
+                </div>
+                <div class="relative">
+                    <input type="text" id="table-search" onkeyup="searchTable()" placeholder="Cari model atau brand..." class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full md:w-72 p-3 pl-10">
+                    <i class="fa-solid fa-search absolute left-3.5 top-3.5 text-slate-400"></i>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto custom-scrollbar border border-slate-200 rounded-2xl shadow-sm">
+                <table id="spec-table" class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                            <th class="p-4 font-bold">Brand & Model</th>
+                            <th class="p-4 font-bold">Ukuran (EUR)</th>
+                            <th class="p-4 font-bold">Harga Cash (Rp)</th>
+                            <th class="p-4 font-bold">Stok</th>
+                            <th class="p-4 font-bold">Spesifikasi Utama</th>
+                            <th class="p-4 font-bold text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 bg-white text-slate-700">
+                        <!-- Rendered by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-slate-500 mt-4 italic">* Catatan: Cicilan / angsuran tersedia lewat e-Wallet (DANA, OVO, GoPay) & Transfer Bank (BCA, BRI, BSI). Hubungi WA 0895385188721 untuk simulasi cicilan di Juragan Rafa.</p>
+        </div>
+    </section>
+
+    <!-- Metode Pembayaran Section -->
+    <section id="pembayaran" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-indigo-600 text-xs font-extrabold uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full">Fleksibel & Aman</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-3">Metode Pembayaran Juragan Rafa</h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">Pilih kemudahan transaksi sesuai kenyamanan Anda.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Cash -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                <div>
+                    <div class="bg-emerald-100 text-emerald-600 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Cash / COD</h3>
+                    <p class="text-slate-600 text-sm mb-6">Pembayaran tunai langsung saat barang diterima (khusus area tertentu) atau bayar di toko offline Juragan Rafa.</p>
+                </div>
+                <ul class="space-y-2 text-sm text-slate-700 border-t border-slate-100 pt-4">
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Aman & Terpercaya</li>
+                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Cek barang dulu</li>
+                </ul>
+            </div>
+
+            <!-- E-Wallet & Angsuran -->
+            <div class="bg-white p-8 rounded-3xl border-2 border-indigo-600 shadow-lg relative flex flex-col justify-between">
+                <div class="absolute -top-3.5 right-6 bg-indigo-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Populer & Cicilan</div>
+                <div>
+                    <div class="bg-indigo-100 text-indigo-600 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">E-Wallet & Angsuran</h3>
+                    <p class="text-slate-600 text-sm mb-6">Dukung cicilan & pembayaran instan via DANA, OVO, GoPay, LinkAja, ShopeePay, dll.</p>
+                </div>
+                <div class="border-t border-slate-100 pt-4">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg">DANA</span>
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg">OVO</span>
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg">GoPay</span>
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg">PayLater</span>
+                    </div>
+                    <p class="text-xs text-indigo-600 font-semibold">Bisa angsuran ringan bulanan di Juragan Rafa!</p>
+                </div>
+            </div>
+
+            <!-- Transfer Bank -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                <div>
+                    <div class="bg-blue-100 text-blue-600 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Transfer Bank</h3>
+                    <p class="text-slate-600 text-sm mb-6">Transfer langsung via ATM, Mobile Banking, atau Internet Banking ke rekening resmi Juragan Rafa.</p>
+                </div>
+                <div class="border-t border-slate-100 pt-4">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg">BCA</span>
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg">BRI</span>
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg">BSI</span>
+                        <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg">Mandiri</span>
+                    </div>
+                    <p class="text-xs text-slate-500">Konfirmasi otomatis via WhatsApp.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontak & CTA WhatsApp -->
+    <section id="kontak" class="bg-slate-900 text-white py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="text-emerald-400 text-xs font-extrabold uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/20 px-3.5 py-1.5 rounded-full">Layanan Pelanggan Juragan Rafa</span>
+                <h2 class="text-3xl sm:text-4xl font-black mt-4 mb-4">Punya Pertanyaan atau Ingin Order Cepat?</h2>
+                <p class="text-slate-300 text-sm sm:text-base mb-8">Tim Juragan Rafa siap melayani konsultasi ukuran, ketersediaan model, hingga simulasi cicilan angsuran langsung melalui WhatsApp.</p>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                        <div class="bg-emerald-600 text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">WhatsApp Official Juragan Rafa</p>
+                            <a href="https://wa.me/62895385188721" target="_blank" class="text-lg font-bold text-white hover:text-emerald-400 transition">0895-3851-88721</a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
+                        <div class="bg-indigo-600 text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Jam Operasional</p>
+                            <p class="text-base font-bold text-white">Senin - Minggu: 08.00 - 21.00 WIB</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white text-slate-800 p-8 rounded-3xl shadow-2xl">
+                <h3 class="text-xl font-black text-slate-900 mb-2">Formulir Pesanan Cepat</h3>
+                <p class="text-xs text-slate-500 mb-6">Isi data di bawah untuk langsung terhubung ke WhatsApp Juragan Rafa dengan format pesanan otomatis.</p>
+                
+                <form onsubmit="quickOrderWhatsApp(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Lengkap</label>
+                        <input type="text" id="order-name" required placeholder="Contoh: Budi Santoso" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-600 focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Pilih Sepatu</label>
+                            <select id="order-product" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-600 focus:outline-none">
+                                <option value="Nike Air Jordan 1 High OG">Nike Air Jordan 1 High OG</option>
+                                <option value="Adidas Ultraboost 1.0">Adidas Ultraboost 1.0</option>
+                                <option value="New Balance 550 White Grey">New Balance 550 White Grey</option>
+                                <option value="Puma RS-X Reinvention">Puma RS-X Reinvention</option>
+                                <option value="Vans Old Skool Classic">Vans Old Skool Classic</option>
+                                <option value="Nike Dunk Low Retro">Nike Dunk Low Retro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Ukuran (EUR)</label>
+                            <select id="order-size" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-600 focus:outline-none">
+                                <option value="39">39</option>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                                <option value="42" selected>42</option>
+                                <option value="43">43</option>
+                                <option value="44">44</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Metode Pembayaran</label>
+                            <select id="order-payment" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-600 focus:outline-none">
+                                <option value="Cash / COD">Cash / COD</option>
+                                <option value="Angsuran E-Wallet (DANA/OVO/GoPay)">Angsuran E-Wallet (DANA/OVO/GoPay)</option>
+                                <option value="Transfer Bank (BCA/BRI/BSI)">Transfer Bank (BCA/BRI/BSI)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Jumlah</label>
+                            <input type="number" id="order-qty" value="1" min="1" max="10" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-600 focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Alamat Pengiriman Singkat</label>
+                        <textarea id="order-address" rows="2" required placeholder="Kecamatan, Kota..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-600 focus:outline-none"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Kirim Pesanan via WhatsApp</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div>
+                <p class="text-white font-bold text-lg mb-1">JURAGAN<span class="text-indigo-500">RAFA</span></p>
+                <p class="text-xs text-slate-500">&copy; 2026 Juragan Rafa. All Rights Reserved. Jual Beli Sepatu Branded Original.</p>
+            </div>
+            <div class="flex items-center gap-6 text-xs font-medium">
+                <a href="#home" class="hover:text-white transition">Beranda</a>
+                <a href="#katalog" class="hover:text-white transition">Katalog</a>
+                <a href="#tabel-detail" class="hover:text-white transition">Spesifikasi</a>
+                <a href="https://wa.me/62895385188721" target="_blank" class="text-emerald-400 hover:underline">WhatsApp: 0895385188721</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal Overlay -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex justify-end">
+        <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col">
+            <div class="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-indigo-600"></i>
+                    <h3 class="font-bold text-slate-900 text-lg">Keranjang Belanja Juragan Rafa</h3>
+                </div>
+                <button onclick="toggleCartModal()" class="text-slate-400 hover:text-slate-700 p-2 text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 space-y-4 custom-scrollbar">
+                <!-- Cart items dynamically inserted here -->
+            </div>
+            <div class="p-5 border-t border-slate-200 bg-slate-50">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm font-medium text-slate-600">Total Harga:</span>
+                    <span id="cart-total" class="text-lg font-black text-slate-900">Rp 0</span>
+                </div>
+                <button onclick="checkoutCartWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Checkout Semua via WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Data Produk Sepatu Branded
+        const products = [
+            {
+                id: 1,
+                brand: "Nike",
+                model: "Nike Air Jordan 1 High OG",
+                sizes: "39, 40, 41, 42, 43, 44",
+                price: 2450000,
+                priceFormatted: "Rp 2.450.000",
+                stock: 12,
+                spec: "Kulit premium, Air-Sole cushioning, Rubber outsole traksi tinggi.",
+                image: "https://placehold.co/400x300/1e293b/cbd5e1?text=Air+Jordan+1"
+            },
+            {
+                id: 2,
+                brand: "Adidas",
+                model: "Adidas Ultraboost 1.0",
+                sizes: "40, 41, 42, 43, 44",
+                price: 1950000,
+                priceFormatted: "Rp 1.950.000",
+                stock: 8,
+                spec: "Primeknit upper, Boost midsole responsif, Continental Rubber outsole.",
+                image: "https://placehold.co/400x300/0f172a/cbd5e1?text=Ultraboost+1.0"
+            },
+            {
+                id: 3,
+                brand: "New Balance",
+                model: "New Balance 550 White Grey",
+                sizes: "39, 40, 41, 42, 43",
+                price: 1800000,
+                priceFormatted: "Rp 1.800.000",
+                stock: 15,
+                spec: "Retro basketball style, leather upper, cushioned midsole yang nyaman.",
+                image: "https://placehold.co/400x300/334155/cbd5e1?text=NB+550"
+            },
+            {
+                id: 4,
+                brand: "Puma",
+                model: "Puma RS-X Reinvention",
+                sizes: "40, 41, 42, 43",
+                price: 1550000,
+                priceFormatted: "Rp 1.550.000",
+                stock: 6,
+                spec: "Chunky silhouette, Running System technology, mesh & suede overlays.",
+                image: "https://placehold.co/400x300/475569/cbd5e1?text=Puma+RS-X"
+            },
+            {
+                id: 5,
+                brand: "Vans",
+                model: "Vans Old Skool Classic",
+                sizes: "38, 39, 40, 41, 42, 43, 44",
+                price: 950000,
+                priceFormatted: "Rp 950.000",
+                stock: 20,
+                spec: "Canvas & suede upper, iconic sidestripe, signature waffle rubber outsole.",
+                image: "https://placehold.co/400x300/64748b/cbd5e1?text=Vans+Old+Skool"
+            },
+            {
+                id: 6,
+                brand: "Nike",
+                model: "Nike Dunk Low Retro",
+                sizes: "39, 40, 41, 42, 43, 44",
+                price: 2100000,
+                priceFormatted: "Rp 2.100.000",
+                stock: 10,
+                spec: "Crisp leather upper seiring waktu semakin lembut, foam midsole ringan.",
+                image: "https://placehold.co/400x300/1e293b/cbd5e1?text=Nike+Dunk+Low"
+            }
+        ];
+
+        let cart = [];
+
+        // Inisialisasi Tampilan saat Load
+        window.onload = function() {
+            renderProducts(products);
+            renderTable(products);
+        };
+
+        // Render Produk Cards
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = "";
+
+            if(items.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">Tidak ada produk yang ditemukan.</div>`;
+                return;
+            }
+
+            items.forEach(item => {
+                grid.innerHTML += `
+                    <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between group">
+                        <div>
+                            <div class="relative overflow-hidden bg-slate-100 h-60">
+                                <img src="${item.image}" alt="${item.model}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <span class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-xl uppercase tracking-wider">${item.brand}</span>
+                                <span class="absolute top-4 right-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-xl">Stok: ${item.stock}</span>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-black text-slate-900 text-lg mb-1">${item.model}</h3>
+                                <p class="text-xs text-slate-500 mb-3"><i class="fa-solid fa-ruler-combined mr-1 text-indigo-600"></i> Ukuran: ${item.sizes}</p>
+                                <p class="text-xs text-slate-600 line-clamp-2 mb-4">${item.spec}</p>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 mt-2">
+                            <div>
+                                <span class="text-[10px] text-slate-400 block uppercase font-bold">Harga Cash / Cicil</span>
+                                <span class="text-lg font-black text-indigo-600">${item.priceFormatted}</span>
+                            </div>
+                            <button onclick="addToCart(${item.id})" class="bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-2xl shadow-md shadow-indigo-200 transition flex items-center justify-center">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Render Tabel Detail
+        function renderTable(items) {
+            const tbody = document.querySelector('#spec-table tbody');
+            tbody.innerHTML = "";
+
+            if(items.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500">Data tidak ditemukan.</td></tr>`;
+                return;
+            }
+
+            items.forEach(item => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 font-bold text-slate-900">${item.model}</td>
+                        <td class="p-4 text-slate-600">${item.sizes}</td>
+                        <td class="p-4 font-bold text-indigo-600">${item.priceFormatted}</td>
+                        <td class="p-4"><span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full">${item.stock} pasang</span></td>
+                        <td class="p-4 text-slate-600 text-xs max-w-xs">${item.spec}</td>
+                        <td class="p-4 text-center">
+                            <button onclick="orderSingleWhatsApp('${item.model}', '${item.priceFormatted}')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition inline-flex items-center gap-1 shadow-sm">
+                                <i class="fa-brands fa-whatsapp"></i> WA
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Filter Produk by Brand
+        function filterProducts(brand) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+            });
+            const activeBtn = document.getElementById(`btn-${brand}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+            }
+
+            if(brand === 'all') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.brand === brand);
+                renderProducts(filtered);
+            }
+        }
+
+        // Search Tabel
+        function searchTable() {
+            const query = document.getElementById('table-search').value.toLowerCase();
+            const filtered = products.filter(p => p.model.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query));
+            renderTable(filtered);
+        }
+
+        // Cart Management
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if(existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`Berhasil menambahkan ${product.model} ke keranjang Juragan Rafa!`);
+        }
+
+        function quickAddToCart(productId) {
+            addToCart(productId);
+            toggleCartModal();
+        }
+
+        function updateCartUI() {
+            const countEl = document.getElementById('cart-count');
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            countEl.innerText = totalCount;
+
+            if(cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 text-sm">Keranjang masih kosong.</div>`;
+                totalEl.innerText = "Rp 0";
+                return;
+            }
+
+            container.innerHTML = "";
+            let totalPrice = 0;
+
+            cart.forEach(item => {
+                totalPrice += item.price * item.qty;
+                container.innerHTML += `
+                    <div class="flex items-center justify-between gap-4 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                        <img src="${item.image}" alt="${item.model}" class="w-16 h-16 object-cover rounded-xl bg-slate-200">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-slate-900 text-sm">${item.model}</h4>
+                            <p class="text-xs text-indigo-600 font-semibold">${item.priceFormatted} x ${item.qty}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(${item.id}, -1)" class="w-7 h-7 bg-white border border-slate-300 rounded-lg text-slate-700 font-bold text-xs flex items-center justify-center hover:bg-slate-100">-</button>
+                            <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+                            <button onclick="changeQty(${item.id}, 1)" class="w-7 h-7 bg-white border border-slate-300 rounded-lg text-slate-700 font-bold text-xs flex items-center justify-center hover:bg-slate-100">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            totalEl.innerText = "Rp " + totalPrice.toLocaleString('id-ID');
+        }
+
+        function changeQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if(item) {
+                item.qty += delta;
+                if(item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+            }
+            updateCartUI();
+        }
+
+        function toggleCartModal() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // WhatsApp Checkout Actions
+        function orderSingleWhatsApp(model, price) {
+            const text = `Halo Juragan Rafa, saya ingin memesan sepatu berikut:\n\n*Model:* ${model}\n*Harga:* ${price}\n\nMohon informasi ketersediaan ukuran dan metode pembayaran (Cash/Angsuran e-Wallet/Transfer Bank). Terima kasih!`;
+            window.open(`https://wa.me/62895385188721?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function quickOrderWhatsApp(e) {
+            e.preventDefault();
+            const name = document.getElementById('order-name').value;
+            const product = document.getElementById('order-product').value;
+            const size = document.getElementById('order-size').value;
+            const payment = document.getElementById('order-payment').value;
+            const qty = document.getElementById('order-qty').value;
+            const address = document.getElementById('order-address').value;
+
+            const text = `Halo Juragan Rafa, saya ingin memesan sepatu melalui Form Cepat:\n\n*Nama:* ${name}\n*Produk:* ${product}\n*Ukuran:* ${size}\n*Jumlah:* ${qty}\n*Metode Pembayaran:* ${payment}\n*Alamat:* ${address}\n\nMohon diproses, terima kasih!`;
+            window.open(`https://wa.me/62895385188721?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function checkoutCartWhatsApp() {
+            if(cart.length === 0) {
+                showToast("Keranjang Anda masih kosong!", "error");
+                return;
+            }
+
+            let text = `Halo Juragan Rafa, saya ingin checkout pesanan dari keranjang:\n\n`;
+            let total = 0;
+            cart.forEach((item, index) => {
+                const sub = item.price * item.qty;
+                total += sub;
+                text += `${index + 1}. ${item.model} (${item.qty}x) - Rp ${sub.toLocaleString('id-ID')}\n`;
+            });
+            text += `\n*Total Keseluruhan:* Rp ${total.toLocaleString('id-ID')}\n\nMohon instruksi pembayaran (Cash / Angsuran e-Wallet / Transfer Bank) selanjutnya. Terima kasih!`;
+
+            window.open(`https://wa.me/62895385188721?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        // Toast Helper
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-msg');
+            const iconEl = document.getElementById('toast-icon');
+
+            msgEl.innerText = msg;
+            if(type === 'error') {
+                iconEl.className = "fa-solid fa-circle-exclamation text-rose-400 text-lg";
+            } else {
+                iconEl.className = "fa-solid fa-circle-check text-emerald-400 text-lg";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
+```
